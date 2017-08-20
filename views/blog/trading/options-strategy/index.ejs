@@ -2,11 +2,18 @@
 <html>
   <head>
     <title><%= title %> - MartinSherene.com</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+	<link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/lib/jquery-colorbox/colorbox.css' />
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="/scripts/underscore-min.js"></script>
+	<script src="/lib/jquery-colorbox/jquery.colorbox-min.js"></script>
 
 	<style type="text/css">
+		p.disclaimer {
+			background: #eee;
+			padding: 1em;
+			border: 2px solid red;
+		}
 		.term {
 			text-decoration: underline;
 			color: purple;
@@ -41,8 +48,9 @@
 		particular security. Make sure to do your own research.
 	</p>
 	<p>
-		Options Strategy 1 is a strategy that deals with the buying and selling of
-		PUT contracts related to sudden downtrends/reversals in the stock market.
+		<strong><em>PUTting Market Trends</em></strong> is an options strategy
+		that deals with the buying and selling of <strong>PUT</strong> contracts
+		related to sudden downtrends/reversals in the stock market.
 	</p>
 	<p>
 		This particular strategy requires patience and paying attention to the
@@ -94,10 +102,10 @@
 		grow a small account and your buying power may not be that large.
 	</p>
 	<p>
-		<img src="/images/blog/trading/options-strategy/aapl-20170816-5min-chart.png" width="274" height="129"
+		<img src="/images/blog/trading/options-strategy/aapl-20170818-162.5-put.png" width="274" height="129"
 		alt="8/16/2017 5-minute chart of an AAPL put contract" title="Click to enlarge"  class="chart-right" />
 		This is where the beauty of options comes in. Take a look at the chart
-		to the right, displaying the price of a AAPL put contract (strike of
+		to the right, displaying the price of an AAPL put contract (strike of
 		$162.50, expiration 8/18/17). At 12:30pm, the beginning of the reversal,
 		this particular contract was going for about a dollar premium (so
 		$100/contract, as a contract is 100 (shares) * premium ($)). Even at
@@ -120,7 +128,7 @@
 			what the market will do tomorrow, the remainder of the week, <thead>
 			following week, etc. I was interested in capturing the market's
 			volatility for that day.</li>
-			<li>I also close the cloest expiration because then I don't have
+			<li>I also close the closest expiration because then I don't have
 			to pay a higher premium for the contract due to time (extrinsic)
 			value.</li>
 			<li>I chose the $162.50 strike because it was the closest
@@ -141,6 +149,14 @@
 		feed you. That's for you to figure out. Look up various indexes and ETFs,
 		and figure out which companies they represent. Then look at charts... lots
 		and lots of charts, comparing the company's history to the market.
+	</p>
+	<p>
+		Last but not least, this strategy should be applied to companies that:
+		<ul>
+			<li>Follow market trends</li>
+			<li>Are optionable</li>
+			<li><strong>Have a healthy amount of [options] volume</strong></li>
+		</ul>
 	</p>
 
 	<div class="footnotes">
@@ -183,13 +199,30 @@
 			return foundTerm.description || "";
 		}
 
-		$("[data-term]").each(function(index, element) {
-			var term = $(element).data("term");
-			var description = getTermDescription(term);
+		function setupTermDictionary() {
+			$("[data-term]").each(function(index, element) {
+				var term = $(element).data("term");
+				var description = getTermDescription(term);
 
-			$(element).attr("title", description);
-			$(element).addClass("term");
-		})
+				$(element).attr("title", description);
+				$(element).addClass("term");
+			})
+		}
+
+		function setupColorbox() {
+			$("img").each(function(index, element) {
+				var url = $(this).attr("src");
+				var altText = $(this).attr("alt");
+				$(this).colorbox({ href: url, title: altText });
+			});
+		}
+
+		$(document).ready(function() {
+			setupTermDictionary();
+			setupColorbox();
+		});
+
+
 	</script>
   </body>
 </html>

@@ -6,8 +6,8 @@ var router = express.Router();
 router.get('/trading/options-strategy', function(req, res, next) {
   res.render('blog/trading/options-strategy/index',
   {
-	  title: 'Options Strategy 1',
-	  subTitle: 'Following Market Trends'
+	  title: 'Options Strategy:',
+	  subTitle: 'PUTting Market Trends'
   });
 });
 
