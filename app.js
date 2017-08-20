@@ -6,8 +6,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
-var users = require('./routes/users');
-var blog = require('./routes/blog');
 
 var app = express();
 
@@ -15,8 +13,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -24,8 +21,18 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-app.use('/users', users);
-app.use('/blog', blog);
+
+app.use(function(req, res, next) {
+  res.render(req.url.replace(/^\//,''), { title: 'Home' }, function(err, html) {
+	  if (err) {
+	    if (err.message.indexOf('Failed to lookup view') !== -1) {
+	      return res.status(404).render('errors/404');
+	    }
+	    throw err;
+	  }
+	  res.send(html);
+  });
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
